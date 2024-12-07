@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 // didn't use chatGPT once!
 use std::fs::File;
 use std::io::{BufRead, BufReader};
@@ -36,7 +37,20 @@ fn load_from_file(file_path: &Path) -> i64 {
     let a = vec_left;
     let b = vec_right;
 
-    let c: Vec<i64> = a.iter().zip(b).map(|(a, b)| (a - b).abs()).collect();
-    let answer: i64 = c.into_iter().sum();
+    //let c: Vec<i64> = a.iter().zip(b).map(|(a, b)| (a - b).abs()).collect();
+    //let answer: i64 = c.into_iter().sum();
+    //answer 
+    let mut hm:HashMap<i64,i64> = HashMap::new();
+    for val in b {
+        if a.contains(&val){
+             *hm.entry(val).or_insert(0)+=1;        }
+    }
+    println!("{:?}", hm);
+
+    let mut vec_duplicates:Vec<i64>=vec![];
+    for (k,v) in hm {
+        vec_duplicates.push(k*v);
+    }
+    let answer:i64 = vec_duplicates.into_iter().sum();
     answer 
 }
